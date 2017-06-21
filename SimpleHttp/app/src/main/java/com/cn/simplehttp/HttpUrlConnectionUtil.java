@@ -15,11 +15,21 @@ import java.util.Map;
 
 public class HttpUrlConnectionUtil {
 
-    public static String get(Request request) throws IOException {
+    public static String execute(Request request) throws IOException {
+        switch (request.method){
+            case GET:
+                return get(request);
+            case POST:
+                return post(request);
+        }
+        return null;
+    }
+
+    private static String get(Request request) throws IOException {
         //声明一个URL连接
         URL newUrl = new URL(request.url);
         HttpURLConnection conn = (HttpURLConnection)newUrl.openConnection();
-        conn.setRequestMethod("GET");
+        conn.setRequestMethod(request.method.toString());
         conn.setReadTimeout(10000);
         conn.setConnectTimeout(15000);
         conn.setDoInput(true);
@@ -41,11 +51,11 @@ public class HttpUrlConnectionUtil {
         return result.toString();
     }
 
-    public static String  post(Request request) throws IOException {
+    private static String  post(Request request) throws IOException {
         //声明一个URL连接
         URL newUrl = new URL(request.url);
         HttpURLConnection conn = (HttpURLConnection)newUrl.openConnection();
-        conn.setRequestMethod("GET");
+        conn.setRequestMethod(request.method.toString());
         conn.setReadTimeout(10000);
         conn.setConnectTimeout(15000);
         conn.setDoInput(true);

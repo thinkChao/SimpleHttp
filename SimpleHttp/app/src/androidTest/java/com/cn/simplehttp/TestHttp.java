@@ -13,19 +13,19 @@ public class TestHttp {
 
     @Test
     public void post() throws Exception {
-        String url = "http://api.stay4it.com";
-        Request request = new Request();
-        request.url = url;
-        String result = HttpUrlConnectionUtil.get(request);
+        String url = "http://api.stay4it.com/v1/public/core/?service=user.login";
+        String content = "account=stay4it&password=123456";
+        Request request = new Request(url, Request.RequestMethod.POST);
+        request.content = content;
+        String result = HttpUrlConnectionUtil.execute(request);
         Log.e("Print result2:",result);
     }
 
     @Test
     public void get() throws Exception {
         String url = "http://api.stay4it.com";
-        Request request = new Request();
-        request.url = url;
-        String result = HttpUrlConnectionUtil.get(request);
+        Request request = new Request(url);
+        String result = HttpUrlConnectionUtil.execute(request);
         Log.e("Print result1:",result);
     }
 
