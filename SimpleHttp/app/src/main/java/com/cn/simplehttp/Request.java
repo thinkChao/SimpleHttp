@@ -7,6 +7,8 @@ import java.util.Map;
  */
 
 public class Request {
+
+
     //构造方法的参数都是一些必须要传递的参数，例如url和method
     public Request(String url,RequestMethod method){
         this.url = url;
@@ -18,11 +20,15 @@ public class Request {
         this.method = RequestMethod.GET;
     }
 
+    public void setCallback(ICallback iCallback) {
+        this.iCallBack = iCallback;
+    }
+
     public enum RequestMethod{GET,POST,PUT,DELETE}
     public RequestMethod method;
     public String url;
     public Map<String,String> header;
     public String content;
-
+    public ICallback iCallBack;
 
 }

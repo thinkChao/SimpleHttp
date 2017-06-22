@@ -7,7 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by aChao on 2017/6/21...
+ * Created by aChao on 2017/6/21.
  */
 public class TestHttp {
 
@@ -29,4 +29,22 @@ public class TestHttp {
         Log.e("Print result1:",result);
     }
 
+    @Test
+    public void RequestOnSubThread() throws Exception {
+        String url = "http://api.stay4it.com";
+        Request request = new Request(url);
+        RequestTask task = new RequestTask(request);
+        task.execute();
+        request.setCallback(new ICallback() {
+            @Override
+            public void onSuccess(String result) {
+                Log.e("Test result3:",result);
+            }
+            @Override
+            public void onFailure(Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+    }
 }
