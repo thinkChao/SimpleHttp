@@ -8,7 +8,7 @@ import android.util.Log;
 
 public abstract class FileCallback extends Callback<String> {
     @Override
-    protected String parseResult(String path) throws Exception {
+    protected String parseResult(String path) throws HttpException {
         return path;
     }
 

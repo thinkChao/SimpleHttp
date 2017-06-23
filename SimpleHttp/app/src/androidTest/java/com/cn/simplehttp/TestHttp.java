@@ -14,30 +14,26 @@ import static org.junit.Assert.*;
  */
 public class TestHttp {
 
-
-
-
     @Test
-    public void testDownload() throws Exception {
-        String url = "http://api.stay4it.com/v1/public/core/?service=user.login";
+    public void RequestOnSubThread() throws Exception {
+        String url = "http://api.stay4it.com/v1/public/core/";  //这个请求会返回500
         String content = "account=stay4it&password=123456";
-        final Request request = new Request(url, Request.RequestMethod.POST);
-        request.content = content;
+        Request request = new Request(url);
+        //request.content = content;
         RequestTask task = new RequestTask(request);
-        String path = Environment.getExternalStorageDirectory() + File.separator+"demo.txt";
-        Log.e("Print path",path);
-        request.setCallback(new FileCallback() {
+        task.execute();
+        request.setCallback(new StringCallback() {
             @Override
             public void onSuccess(String result) {
-                Log.e("Print result:","success!");
+
+                Log.e("Print result:",result);
             }
             @Override
-            public void onFailure(Exception e) {
-                Log.e("Print result:","fail!");
-                e.printStackTrace();
+            public void onFailure(HttpException e) {
+                Log.e("Print status:",""+e.status);
+                Log.e("Print responseMessage",e.getMessage());
             }
-        }.setPath(path));
-        task.execute();
+        });
 
     }
 }

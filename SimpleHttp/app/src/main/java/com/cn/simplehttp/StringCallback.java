@@ -11,11 +11,10 @@ import java.lang.reflect.Type;
  * Created by aChao on 2017/6/23.
  */
 
-public abstract class XmlCallback<T> extends Callback<T> {
+public abstract class StringCallback extends Callback<String> {
     @Override
-    protected T parseResult(String result) throws Exception {
-        //TODO : parse Xml
-        return null;
+    protected String parseResult(String result) throws HttpException {
+        return result;
     }
 
 }

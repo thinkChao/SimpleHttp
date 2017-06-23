@@ -27,8 +27,8 @@ public class RequestTask extends AsyncTask {
         try {
            HttpURLConnection conn = HttpUrlConnectionUtil.execute(request);
             return request.iCallBack.parse(conn);
-        } catch (Exception e) {
-            return e;
+        } catch (HttpException e) {
+            return e;   //在这里就不抛出了，因为已经到达最外层了
         }
     }
 
@@ -36,7 +36,7 @@ public class RequestTask extends AsyncTask {
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
         if(o instanceof Exception){
-            request.iCallBack.onFailure((Exception) o);
+            request.iCallBack.onFailure((HttpException) o);
         }else {
             request.iCallBack.onSuccess(o);
         }

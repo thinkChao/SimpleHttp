@@ -14,12 +14,16 @@ import java.lang.reflect.Type;
 
 public abstract class JsonCallback<T> extends Callback<T> {
     @Override
-    protected T parseResult(String result) throws Exception {
-        JSONObject json = new JSONObject(result);
-        JSONObject data = json.optJSONObject("data");
-        Gson gson = new Gson();
-        Type type = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        return gson.fromJson(data.toString(), type);
+    protected T parseResult(String result) throws HttpException {
+        try {
+            JSONObject json = new JSONObject(result);
+            JSONObject data = json.optJSONObject("data");
+            Gson gson = new Gson();
+            Type type = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+            return gson.fromJson(data.toString(), type);
+        } catch (JSONException e) {
+            throw new HttpException(e.getMessage());
+        }
     }
 
 }
