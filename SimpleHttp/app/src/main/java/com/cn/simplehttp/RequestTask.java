@@ -25,8 +25,9 @@ public class RequestTask extends AsyncTask {
     @Override
     protected Object doInBackground(Object[] params) {
         try {
-            return HttpUrlConnectionUtil.execute(request);
-        } catch (IOException e) {
+           HttpURLConnection conn = HttpUrlConnectionUtil.execute(request);
+            return request.iCallBack.parse(conn);
+        } catch (Exception e) {
             return e;
         }
     }
@@ -37,7 +38,7 @@ public class RequestTask extends AsyncTask {
         if(o instanceof Exception){
             request.iCallBack.onFailure((Exception) o);
         }else {
-            request.iCallBack.onSuccess((String) o);
+            request.iCallBack.onSuccess(o);
         }
     }
 }

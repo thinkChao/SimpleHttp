@@ -11,34 +11,21 @@ import static org.junit.Assert.*;
  */
 public class TestHttp {
 
+
+
+
     @Test
-    public void post() throws Exception {
+    public void test() throws Exception {
         String url = "http://api.stay4it.com/v1/public/core/?service=user.login";
         String content = "account=stay4it&password=123456";
-        Request request = new Request(url, Request.RequestMethod.POST);
+        final Request request = new Request(url, Request.RequestMethod.POST);
         request.content = content;
-        String result = HttpUrlConnectionUtil.execute(request);
-        Log.e("Print result2:",result);
-    }
-
-    @Test
-    public void get() throws Exception {
-        String url = "http://api.stay4it.com";
-        Request request = new Request(url);
-        String result = HttpUrlConnectionUtil.execute(request);
-        Log.e("Print result1:",result);
-    }
-
-    @Test
-    public void RequestOnSubThread() throws Exception {
-        String url = "http://api.stay4it.com";
-        Request request = new Request(url);
         RequestTask task = new RequestTask(request);
         task.execute();
-        request.setCallback(new ICallback() {
+        request.setCallback(new JsonCallback<User>() {
             @Override
-            public void onSuccess(String result) {
-                Log.e("Test result3:",result);
+            public void onSuccess(User result) {
+                Log.e("Print result:",result.account);
             }
             @Override
             public void onFailure(Exception e) {

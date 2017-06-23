@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class HttpUrlConnectionUtil {
 
-    public static String execute(Request request) throws IOException {
+    public static HttpURLConnection execute(Request request) throws IOException {
         switch (request.method){
             case GET:
                 return get(request);
@@ -25,7 +25,7 @@ public class HttpUrlConnectionUtil {
         return null;
     }
 
-    private static String get(Request request) throws IOException {
+    private static HttpURLConnection get(Request request) throws IOException {
         //声明一个URL连接
         URL newUrl = new URL(request.url);
         HttpURLConnection conn = (HttpURLConnection)newUrl.openConnection();
@@ -35,7 +35,7 @@ public class HttpUrlConnectionUtil {
         conn.setDoInput(true);
         //添加header
         addHeader(conn,request.header);
-        //发起请求
+      /*  //发起请求
         conn.connect();
         //获取结果
         InputStream in = conn.getInputStream();
@@ -48,10 +48,11 @@ public class HttpUrlConnectionUtil {
         }
         in.close();
         //返回结果
-        return result.toString();
+        return result.toString();*/
+        return conn;
     }
 
-    private static String  post(Request request) throws IOException {
+    private static HttpURLConnection  post(Request request) throws IOException {
         //声明一个URL连接
         URL newUrl = new URL(request.url);
         HttpURLConnection conn = (HttpURLConnection)newUrl.openConnection();
@@ -65,7 +66,7 @@ public class HttpUrlConnectionUtil {
         //将参数传到服务器
         OutputStream out = conn.getOutputStream();
         out.write(request.content.getBytes());
-        //发起请求
+      /*  //发起请求
         conn.connect();
         //获取结果
         InputStream in = conn.getInputStream();
@@ -78,7 +79,8 @@ public class HttpUrlConnectionUtil {
         }
         in.close();
         //返回结果
-        return result.toString();
+        return result.toString();*/
+      return conn;
     }
 
     private static void addHeader(HttpURLConnection conn,Map<String,String> header){

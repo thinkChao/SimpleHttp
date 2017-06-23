@@ -1,10 +1,14 @@
 package com.cn.simplehttp;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+
 /**
  * Created by aChao on 2017/6/22.
  */
 
-public interface ICallback {
-    void onSuccess(String result);
+public interface ICallback<T> {
+    void onSuccess(T result);
     void onFailure(Exception e);
+    T parse(HttpURLConnection conn) throws Exception;
 }
