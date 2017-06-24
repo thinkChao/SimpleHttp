@@ -26,12 +26,20 @@ public class RequestTask extends AsyncTask {
     protected Object doInBackground(Object[] params) {
         try {
            HttpURLConnection conn = HttpUrlConnectionUtil.execute(request);
-            return request.iCallBack.parse(conn);
+            if (request.enableProgressUpdated == true) {
+                return request.iCallBack.parse(conn, new OnProgressUpdatedListener() {
+                    @Override
+                    public void onProgressUpdated(Object curLen, Object totalLen) {
+                        publishProgress(curLen,totalLen);
+                    }
+                });
+            } else {
+                return request.iCallBack.parse(conn);
+            }
         } catch (HttpException e) {
             return e;   //在这里就不抛出了，因为已经到达最外层了
         }
     }
-
     @Override
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
@@ -40,5 +48,11 @@ public class RequestTask extends AsyncTask {
         }else {
             request.iCallBack.onSuccess(o);
         }
+    }
+
+    @Override
+    protected void onProgressUpdate(Object[] values) {
+        super.onProgressUpdate(values);
+        request.iCallBack.onProgressUpdated(values[0],values[1]);
     }
 }

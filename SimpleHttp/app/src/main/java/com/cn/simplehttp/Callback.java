@@ -20,8 +20,14 @@ public abstract class Callback<T> implements ICallback<T> {
     private String path;
     private int status;
     private String reponseMessage;
+
     @Override
-    public T parse(HttpURLConnection conn) throws HttpException{
+    public T parse(HttpURLConnection conn) throws HttpException {
+        return parse(conn,null);
+    }
+
+    @Override
+    public T parse(HttpURLConnection conn,OnProgressUpdatedListener listener) throws HttpException{
         try {
             //发起请求
            // conn.connect(); 这行代码可以不要
@@ -45,9 +51,14 @@ public abstract class Callback<T> implements ICallback<T> {
                     FileOutputStream out = new FileOutputStream(path);//如果找不到文件，会新建一个文件
                     InputStream in = conn.getInputStream();
                     byte[] buffer = new byte[2048];
+                    int totalLen = conn.getContentLength();
+                    int curLen = 0;
                     int len = 0;
+
                     while((len = in.read(buffer)) != -1){
                         out.write(buffer,0,len);
+                        curLen += len;
+                        listener.onProgressUpdated(curLen,totalLen);
                     }
                     in.close();
                     out.flush();
@@ -59,6 +70,12 @@ public abstract class Callback<T> implements ICallback<T> {
         } catch (Exception e) {
             throw new HttpException(status,reponseMessage);
         }
+
+    }
+
+
+    @Override
+    public void onProgressUpdated(Object curLen, Object totalLen) {
 
     }
 

@@ -10,5 +10,7 @@ import java.net.HttpURLConnection;
 public interface ICallback<T> {
     void onSuccess(T result);
     void onFailure(HttpException e);
+    T parse(HttpURLConnection conn,OnProgressUpdatedListener listener) throws HttpException;
     T parse(HttpURLConnection conn) throws HttpException;
+    void onProgressUpdated(Object curLen , Object totalLen);
 }

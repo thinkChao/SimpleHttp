@@ -9,6 +9,8 @@ import java.util.Map;
 public class Request {
 
 
+    public boolean enableProgressUpdated = false;
+
     //构造方法的参数都是一些必须要传递的参数，例如url和method
     public Request(String url,RequestMethod method){
         this.url = url;
@@ -22,6 +24,10 @@ public class Request {
 
     public void setCallback(ICallback iCallback) {
         this.iCallBack = iCallback;
+    }
+
+    public void enableProgressUpdated(boolean enable) {
+        this.enableProgressUpdated = enable;
     }
 
     public enum RequestMethod{GET,POST,PUT,DELETE}
